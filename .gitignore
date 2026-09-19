@@ -1,0 +1,5 @@
+# Nothing generated lives in here — lazy-lock.json IS committed on purpose so
+# both machines install the exact same plugin versions.
+spell/
+*.swp
+.DS_Store

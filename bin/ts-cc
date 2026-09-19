@@ -1,0 +1,34 @@
+#!/bin/sh
+# ============================================================================
+#  Treesitter compiler shim  (macOS only)
+#
+#  WHY THIS EXISTS
+#  On this machine `xcrun` hands out a mismatched toolchain: the compiler
+#  comes from Xcode.app (clang 17, SDK 26.1) while the SDK path resolves to
+#  CommandLineTools (SDK 27.0). Linking then dies with:
+#
+#      ld: tapi error: malformed file ... unknown architecture arm64e.x1
+#
+#  because the older linker can't parse the newer SDK's libSystem stub.
+#
+#  This shim forces a MATCHED pair: CommandLineTools clang 21 + CLT SDK 27.
+#  It is used ONLY by nvim-treesitter when it builds parsers, so it does not
+#  touch your global environment and will not affect xcodebuild, Expo
+#  `run:ios`, or anything else outside Neovim.
+#
+#  PERMANENT FIX: update Xcode.app to a version that ships the macOS 27 SDK.
+#  Once `clang --version` from Xcode is >= 21, this file can be deleted and
+#  the `compilers` line in lua/plugins/editor.lua removed.
+# ============================================================================
+
+CLT="/Library/Developer/CommandLineTools"
+
+# Only override when the CLT toolchain is actually present and complete.
+if [ -x "$CLT/usr/bin/clang" ] && [ -d "$CLT/SDKs/MacOSX.sdk" ]; then
+  SDKROOT="$CLT/SDKs/MacOSX.sdk"
+  export SDKROOT
+  exec "$CLT/usr/bin/clang" "$@"
+fi
+
+# Fall back to whatever the system would normally use.
+exec cc "$@"
