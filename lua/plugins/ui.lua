@@ -24,6 +24,7 @@ return {
       integrations = {
         blink_cmp = true,
         gitsigns = true,
+        indent_blankline = { enabled = true },
         neotree = true,
         telescope = { enabled = true },
         treesitter = true,

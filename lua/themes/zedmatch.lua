@@ -62,6 +62,14 @@ M.palette = {
   tag_builtin_dim   = "#557b92",  -- </div>
   tag_member        = "#c58fb0",  -- <Animated.View>
   tag_member_dim    = "#906c86",
+
+  -- Indent guides. These MUST NOT inherit Whitespace: that is #252b34, which
+  -- against the #1d2129 background scores 1.13 contrast and is invisible.
+  -- 2.13 is a little stronger than Catppuccin (1.80) or Tokyo Night (1.74)
+  -- use, because this theme runs transparent and the blurred desktop behind
+  -- it washes faint lines out.
+  indent            = "#4a5565",
+  indent_scope      = "#7e93a8",
 }
 
 --- @param opts? { transparent?: boolean }
@@ -357,7 +365,17 @@ function M.load(opts)
     AlphaHeader             = { fg = c.keyword },
     AlphaButtons            = { fg = c.func },
     AlphaFooter             = { fg = c.comment, italic = true },
-    SnacksIndent            = { fg = c.bg_light },
+    SnacksIndent            = { fg = c.indent },
+
+    -- indent-blankline. Set explicitly rather than letting it fall back to
+    -- Whitespace, which also drives listchars and should stay near-invisible.
+    ["@ibl.indent.char.1"]     = { fg = c.indent },
+    ["@ibl.whitespace.char.1"] = { fg = c.indent },
+    ["@ibl.scope.char.1"]      = { fg = c.indent_scope },
+    ["@ibl.scope.underline.1"] = { fg = c.indent_scope },
+    IblIndent                  = { fg = c.indent },
+    IblWhitespace              = { fg = c.indent },
+    IblScope                   = { fg = c.indent_scope },
   }
 
   for group, spec in pairs(groups) do hl(group, spec) end
