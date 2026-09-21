@@ -72,9 +72,20 @@ map("n", "<leader>cf", function() require("conform").format({ async = true, lsp_
 map("n", "<leader>gb", "<cmd>Gitsigns blame_line<cr>",           "Who wrote this line")
 map("n", "<leader>gB", "<cmd>Gitsigns toggle_current_line_blame<cr>", "Toggle inline blame")
 map("n", "<leader>gp", "<cmd>Gitsigns preview_hunk<cr>",         "Preview this change")
-map("n", "<leader>gs", "<cmd>Gitsigns stage_hunk<cr>",           "Stage this change")
-map("n", "<leader>gu", "<cmd>Gitsigns undo_stage_hunk<cr>",      "Unstage this change")
+map("n", "<leader>gs", "<cmd>Gitsigns stage_hunk<cr>",           "Stage / unstage this change")
+-- gitsigns deprecated undo_stage_hunk (actions.lua:434) and it no longer
+-- unstages; stage_hunk now TOGGLES, so it both stages and unstages.
+map("n", "<leader>gu", "<cmd>Gitsigns stage_hunk<cr>",           "Unstage this change (toggle)")
 map("n", "<leader>gr", "<cmd>Gitsigns reset_hunk<cr>",           "Discard this change")
+map("n", "<leader>gR", function()
+  if vim.fn.confirm("Discard ALL unsaved and uncommitted changes in this file?", "&Yes\n&No", 2) == 1 then
+    require("gitsigns").reset_buffer()
+    vim.cmd("write")
+  end
+end, "Discard every change in this file")
+-- Select lines first to discard or stage only those.
+map("x", "<leader>gr", ":Gitsigns reset_hunk<cr>",               "Discard the selected lines")
+map("x", "<leader>gs", ":Gitsigns stage_hunk<cr>",               "Stage the selected lines")
 map("n", "<leader>gd", "<cmd>Gitsigns diffthis<cr>",             "Diff this file")
 map("n", "<leader>gc", "<cmd>Telescope git_commits<cr>",         "Browse commits")
 map("n", "<leader>gf", "<cmd>Telescope git_status<cr>",          "Changed files")
