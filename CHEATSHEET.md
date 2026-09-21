@@ -17,6 +17,12 @@ Open this file any time with `:Cheatsheet` or `Space u ?`.
 | `Space /` | Toggle comment | `Ctrl+/` |
 | `Space t` | Terminal in a split below | ``Ctrl+` `` |
 | `Space T` | Terminal in a split to the right | |
+| `Ctrl+\` | Toggle terminal from anywhere, incl. inside it | |
+
+From inside the terminal, `Ctrl+h/j/k/l` jump straight to a code pane.
+That costs the shell `Ctrl+h` (backspace), `Ctrl+j` (Enter), `Ctrl+k`
+(kill to end of line) and `Ctrl+l` (clear screen) — use Backspace, Enter,
+`Ctrl+u` and `clear` instead. `Ctrl+w` is untouched.
 | `Space q` | Close current file | `Ctrl+W` |
 | `Esc` | Clear search highlight / leave insert mode | `Esc` |
 

@@ -198,5 +198,17 @@ map("v", "p", '"_dP', "Paste without clobbering your clipboard")
 -- TERMINAL MODE
 -- ---------------------------------------------------------------------------
 map("t", "<Esc><Esc>", "<C-\\><C-n>", "Leave terminal insert mode")
--- Ctrl+\ hides the terminal again from inside it (set by toggleterm).
--- To reach your code without hiding the terminal: <Esc><Esc> then <C-h>/<C-k>.
+
+-- Jump straight from the terminal to a code window, without leaving insert
+-- mode first. This takes four keys away from the shell running inside it:
+--   Ctrl+h  was backspace            -> plain Backspace still works
+--   Ctrl+j  was another Enter        -> plain Enter still works
+--   Ctrl+k  was kill-to-end-of-line  -> no replacement; use Ctrl+u to clear the
+--                                       whole line, or End then Backspace
+--   Ctrl+l  was clear screen         -> type `clear`, or Cmd+K in Ghostty
+-- Ctrl+w (delete previous word) is NOT rebound and still works.
+-- Ctrl+\ toggles the terminal away entirely.
+map("t", "<C-h>", "<C-\\><C-n><C-w>h", "Focus pane left from terminal")
+map("t", "<C-j>", "<C-\\><C-n><C-w>j", "Focus pane down from terminal")
+map("t", "<C-k>", "<C-\\><C-n><C-w>k", "Focus pane up from terminal")
+map("t", "<C-l>", "<C-\\><C-n><C-w>l", "Focus pane right from terminal")
