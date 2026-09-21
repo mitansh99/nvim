@@ -17,7 +17,8 @@ map("n", "<leader>S", "<cmd>wall<cr>",                       "Save all files    
 map("n", "<leader>e", "<cmd>Neotree toggle<cr>",             "Toggle file tree     (VS Code: Ctrl+B)")
 map("n", "<leader>p", "<cmd>Telescope find_files<cr>",       "Find file            (VS Code: Ctrl+P)")
 map("n", "<leader>P", "<cmd>Telescope commands<cr>",         "Command palette      (VS Code: Ctrl+Shift+P)")
-map("n", "<leader>t", "<cmd>ToggleTerm<cr>",                 "Toggle terminal      (VS Code: Ctrl+`)")
+map("n", "<leader>t", "<cmd>ToggleTerm direction=horizontal<cr>", "Terminal below       (VS Code: Ctrl+`)")
+map("n", "<leader>T", "<cmd>2ToggleTerm direction=vertical<cr>",  "Terminal to the right")
 map("n", "<leader>q", function() require("core.buffers").close() end, "Close this file      (VS Code: Ctrl+W)")
 map("n", "<leader>Q", "<cmd>qall<cr>",                       "Quit Neovim")
 map("n", "<leader>x", "<cmd>Telescope diagnostics<cr>",      "List all problems    (VS Code: Ctrl+Shift+M)")
@@ -197,3 +198,5 @@ map("v", "p", '"_dP', "Paste without clobbering your clipboard")
 -- TERMINAL MODE
 -- ---------------------------------------------------------------------------
 map("t", "<Esc><Esc>", "<C-\\><C-n>", "Leave terminal insert mode")
+-- Ctrl+\ hides the terminal again from inside it (set by toggleterm).
+-- To reach your code without hiding the terminal: <Esc><Esc> then <C-h>/<C-k>.

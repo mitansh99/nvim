@@ -169,11 +169,26 @@ return {
     "akinsho/toggleterm.nvim",
     cmd = "ToggleTerm",
     opts = {
-      direction = "float",
-      float_opts = { border = "rounded", winblend = 0 },
+      -- Split at the bottom by default, like VS Code's panel, so the terminal
+      -- sits alongside your code instead of covering it.
+      direction = "horizontal",
+      size = function(term)
+        if term.direction == "horizontal" then
+          return 15
+        elseif term.direction == "vertical" then
+          return math.floor(vim.o.columns * 0.4)
+        end
+      end,
+      persist_size = true,      -- remember it after you drag the divider
+      persist_mode = false,     -- always come back in insert mode, ready to type
       start_in_insert = true,
-      persist_mode = false,
+      float_opts = { border = "rounded", winblend = 0 },
       shell = vim.o.shell,
+      -- Ctrl+\ toggles the terminal from ANYWHERE, including from inside the
+      -- terminal itself. Space can't work in terminal mode (it would just type
+      -- a space into your shell), and Ctrl+\ is one of the few keys no shell
+      -- binds by default.
+      open_mapping = [[<c-\>]],
     },
   },
 

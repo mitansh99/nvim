@@ -15,7 +15,8 @@ Open this file any time with `:Cheatsheet` or `Space u ?`.
 | `Space e` | Toggle file tree sidebar | `Ctrl+B` |
 | `Space f g` | Search text across project | `Ctrl+Shift+F` |
 | `Space /` | Toggle comment | `Ctrl+/` |
-| `Space t` | Toggle terminal | ``Ctrl+` `` |
+| `Space t` | Terminal in a split below | ``Ctrl+` `` |
+| `Space T` | Terminal in a split to the right | |
 | `Space q` | Close current file | `Ctrl+W` |
 | `Esc` | Clear search highlight / leave insert mode | `Esc` |
 
