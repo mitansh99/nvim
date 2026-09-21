@@ -138,6 +138,57 @@ return {
   },
 
   -- --------------------------------------------------------------------------
+  -- ANIMATION — scroll, window resize, split open/close.
+  -- Cursor is deliberately left to smear-cursor below, which does it better.
+  -- --------------------------------------------------------------------------
+  {
+    "echasnovski/mini.animate",
+    event = "VeryLazy",
+    config = function()
+      local animate = require("mini.animate")
+      local function timing(ms)
+        return animate.gen_timing.linear({ duration = ms, unit = "total" })
+      end
+      animate.setup({
+        cursor = { enable = false },
+        scroll = { enable = true, timing = timing(120) },
+        resize = { enable = true, timing = timing(100) },
+        open   = { enable = true, timing = timing(100) },
+        close  = { enable = true, timing = timing(100) },
+      })
+    end,
+  },
+
+  -- --------------------------------------------------------------------------
+  -- SMEAR CURSOR — a trail that follows the cursor between jumps.
+  -- --------------------------------------------------------------------------
+  {
+    "sphamba/smear-cursor.nvim",
+    event = "VeryLazy",
+    opts = {
+      -- Every theme here is transparent, so Normal has no background and the
+      -- plugin cannot blend the trail (its own comment: "Blending breaks with
+      -- transparent backgrounds"). It then falls back to a neutral #303030.
+      -- The right colour is whatever is ACTUALLY behind the text, which is
+      -- Ghostty's background - #1d2129 - not the nvim theme's.
+      transparent_bg_fallback_color = "#1d2129",
+
+      -- Subtle and quick: you see the motion, you never wait for it.
+      stiffness = 0.8,
+      trailing_stiffness = 0.6,
+      damping = 0.8,
+      time_interval = 10,
+
+      -- No trail while typing or in the terminal; it is distracting there.
+      smear_insert_mode = false,
+      smear_terminal_mode = false,
+
+      -- Panels where a trail is just noise.
+      filetypes_disabled = { "neo-tree", "gitpanel", "alpha", "TelescopePrompt", "lazy", "mason" },
+    },
+  },
+
+  -- --------------------------------------------------------------------------
   -- TODO COMMENTS — highlights TODO / FIXME / HACK / NOTE and makes them
   -- searchable across the project.
   -- --------------------------------------------------------------------------

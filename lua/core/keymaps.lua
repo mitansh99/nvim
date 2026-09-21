@@ -199,8 +199,23 @@ map("n", "<C-k>", "<C-w>k", "Focus pane up")
 map("n", "<C-l>", "<C-w>l", "Focus pane right")
 
 -- Keep the cursor centred when jumping, so you never lose your place
-map("n", "<C-d>", "<C-d>zz", "Half page down")
-map("n", "<C-u>", "<C-u>zz", "Half page up")
+-- Half-page scroll, recentred. The recentre has to be scheduled AFTER the
+-- scroll animation, otherwise mini.animate animates the scroll and then
+-- animates the recentre too, and the whole thing feels sluggish.
+-- MiniAnimate.execute_after is the plugin's documented fix (animate.lua:234).
+local function scroll_centered(key)
+  return function()
+    vim.cmd("normal! " .. vim.api.nvim_replace_termcodes(key, true, false, true))
+    local ok, animate = pcall(require, "mini.animate")
+    if ok then
+      animate.execute_after("scroll", "normal! zz")
+    else
+      vim.cmd("normal! zz")
+    end
+  end
+end
+map("n", "<C-d>", scroll_centered("<C-d>"), "Half page down")
+map("n", "<C-u>", scroll_centered("<C-u>"), "Half page up")
 map("n", "n",     "nzzzv",   "Next search match")
 map("n", "N",     "Nzzzv",   "Previous search match")
 

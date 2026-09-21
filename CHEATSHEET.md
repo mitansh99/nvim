@@ -232,6 +232,19 @@ wrapped paragraphs navigate naturally. Code files are unaffected.
 
 ---
 
+## Animations
+
+Cursor leaves a short trail when it jumps; scrolling glides; splits slide open
+and closed. All tuned short (~100-150ms) so you see the motion but never wait
+for it.
+
+To change or remove them, see `lua/plugins/extras.lua` — `mini.animate` for
+scroll and windows, `smear-cursor.nvim` for the cursor. Set `enable = false`
+on any individual effect.
+
+There is no trail while typing, in the terminal, or in the file tree and
+commit panel.
+
 ## Themes
 
 `Space u t` opens a searchable list. Moving the cursor applies the theme to your
