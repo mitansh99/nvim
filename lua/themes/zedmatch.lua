@@ -367,6 +367,13 @@ function M.load(opts)
     AlphaFooter             = { fg = c.comment, italic = true },
     SnacksIndent            = { fg = c.indent },
 
+    -- commit panel under the file tree (lua/core/gitpanel.lua)
+    GitPanelHead            = { fg = c.func, bold = true },
+    GitPanelGraph           = { fg = c.indent_scope },
+    GitPanelSubject         = { fg = c.fg_dim },
+    GitPanelTime            = { fg = c.line_nr },
+    GitPanelRef             = { fg = c.keyword, bold = true },
+
     -- indent-blankline. Set explicitly rather than letting it fall back to
     -- Whitespace, which also drives listchars and should stay near-invisible.
     ["@ibl.indent.char.1"]     = { fg = c.indent },

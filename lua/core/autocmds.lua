@@ -91,6 +91,18 @@ vim.api.nvim_create_autocmd("BufDelete", {
   end,
 })
 
+-- Keep the commit panel current after you write a file or come back to nvim
+-- (you may have committed in the terminal or in lazygit meanwhile).
+vim.api.nvim_create_autocmd({ "BufWritePost", "FocusGained", "TermLeave" }, {
+  group = augroup("gitpanel_refresh"),
+  callback = function()
+    local ok, panel = pcall(require, "core.gitpanel")
+    if ok then
+      panel.refresh()
+    end
+  end,
+})
+
 -- :Cheatsheet — open the key reference in a split.
 vim.api.nvim_create_user_command("Cheatsheet", function()
   vim.cmd("vsplit " .. vim.fn.stdpath("config") .. "/CHEATSHEET.md")

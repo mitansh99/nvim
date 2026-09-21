@@ -12,7 +12,7 @@ Open this file any time with `:Cheatsheet` or `Space u ?`.
 | `Space s` | Save file | `Ctrl+S` |
 | `Space p` | Find file by name | `Ctrl+P` |
 | `Space P` | Command palette | `Ctrl+Shift+P` |
-| `Space e` | Toggle file tree sidebar | `Ctrl+B` |
+| `Space e` | Toggle file tree + commit panel | `Ctrl+B` |
 | `Space f g` | Search text across project | `Ctrl+Shift+F` |
 | `Space /` | Toggle comment | `Ctrl+/` |
 | `Space t` | Terminal in a split below | ``Ctrl+` `` |
@@ -87,6 +87,7 @@ Inside a finder: type to filter, `Ctrl+j`/`Ctrl+k` to move, `Enter` to open, `Es
 | `Space g r` | Discard this change |
 | `Space g d` | Diff this file |
 | `Space g f` | List changed files |
+| `Space g l` | Toggle the commit panel on its own |
 | `Space g c` | Browse commits |
 | `Space g g` | **lazygit** — full git UI |
 | `Space g v` | Diff view of all changes |
@@ -181,6 +182,20 @@ Swap `v` for `d` to delete or `c` to change — `dif` deletes a function body.
 | `S` in visual mode | surround the selection |
 
 ---
+
+## The commit panel
+
+The file tree sits on the right; recent commits show underneath it, refreshing
+after you save or return to Neovim.
+
+| Key | Does |
+|---|---|
+| `Enter` | open that commit's diff |
+| `r` | refresh |
+| `q` | close the panel |
+
+`●` marks HEAD, `│` the commits behind it, and the branch name is shown on the
+tip commit.
 
 ## Autocomplete
 

@@ -219,7 +219,8 @@ return {
       enable_git_status = true,
       enable_diagnostics = true,
       window = {
-        width = 32,
+        position = "right",   -- sidebar on the right, like the screenshot
+        width = 34,
         mappings = {
           ["<space>"] = "none",  -- don't steal the leader key inside the tree
           ["l"] = "open",

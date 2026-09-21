@@ -14,11 +14,19 @@ end
 -- ---------------------------------------------------------------------------
 map("n", "<leader>s", "<cmd>write<cr>",                      "Save file            (VS Code: Ctrl+S)")
 map("n", "<leader>S", "<cmd>wall<cr>",                       "Save all files       (VS Code: Ctrl+K S)")
-map("n", "<leader>e", "<cmd>Neotree toggle<cr>",             "Toggle file tree     (VS Code: Ctrl+B)")
+map("n", "<leader>e", function()
+  vim.cmd("Neotree toggle")
+  -- neo-tree opens asynchronously; let its window exist before we hang the
+  -- commit panel underneath it.
+  vim.defer_fn(function() require("core.gitpanel").sync() end, 80)
+end, "Toggle file tree     (VS Code: Ctrl+B)")
+map("n", "<leader>gl", function() require("core.gitpanel").sync() end, "Toggle the commit panel")
 map("n", "<leader>p", "<cmd>Telescope find_files<cr>",       "Find file            (VS Code: Ctrl+P)")
 map("n", "<leader>P", "<cmd>Telescope commands<cr>",         "Command palette      (VS Code: Ctrl+Shift+P)")
-map("n", "<leader>t", "<cmd>ToggleTerm direction=horizontal<cr>", "Terminal below       (VS Code: Ctrl+`)")
-map("n", "<leader>T", "<cmd>2ToggleTerm direction=vertical<cr>",  "Terminal to the right")
+map("n", "<leader>t", function() require("core.terminal").toggle("horizontal") end,
+                                                                 "Terminal below       (VS Code: Ctrl+`)")
+map("n", "<leader>T", function() require("core.terminal").toggle("vertical") end,
+                                                                 "Terminal beside the code")
 map("n", "<leader>q", function() require("core.buffers").close() end, "Close this file      (VS Code: Ctrl+W)")
 map("n", "<leader>Q", "<cmd>qall<cr>",                       "Quit Neovim")
 map("n", "<leader>x", "<cmd>Telescope diagnostics<cr>",      "List all problems    (VS Code: Ctrl+Shift+M)")
@@ -197,6 +205,11 @@ map("v", "p", '"_dP', "Paste without clobbering your clipboard")
 -- ---------------------------------------------------------------------------
 -- TERMINAL MODE
 -- ---------------------------------------------------------------------------
+map("n", "<C-\\>", function() require("core.terminal").hide_current() end, "Toggle terminal")
+map("t", "<C-\\>", function()
+  vim.cmd("stopinsert")
+  require("core.terminal").hide_current()
+end, "Hide terminal from inside it")
 map("t", "<Esc><Esc>", "<C-\\><C-n>", "Leave terminal insert mode")
 
 -- Jump straight from the terminal to a code window, without leaving insert
