@@ -261,12 +261,49 @@ return {
         if not vim.g.format_on_save then
           return nil
         end
-        -- Never reformat inside dependency folders.
         local path = vim.api.nvim_buf_get_name(bufnr)
+        -- Never reformat inside dependency folders.
         if path:match("/node_modules/") or path:match("/%.git/") then
           return nil
         end
-        return { timeout_ms = 2000, lsp_format = "fallback" }
+
+        -- Only format when the PROJECT says how it wants to be formatted.
+        --
+        -- Measured on the real repos: none of them define a prettier config,
+        -- so prettierd used its own defaults - double quotes and semicolons,
+        -- the opposite of the code's actual style. Saving App.jsx would have
+        -- rewritten 458 of its 624 lines, burying a real change in noise and
+        -- generating merge conflicts for everyone else.
+        --
+        -- With a config present, formatting turns itself back on.
+        -- To format a file regardless, use <leader>cf.
+        local dir = vim.fs.dirname(path)
+        local markers = {
+          ".prettierrc", ".prettierrc.json", ".prettierrc.js", ".prettierrc.yml",
+          ".prettierrc.yaml", ".prettierrc.cjs", ".prettierrc.mjs",
+          "prettier.config.js", "prettier.config.cjs", "prettier.config.mjs",
+          ".editorconfig",
+        }
+        if vim.fs.find(markers, { path = dir, upward = true })[1] then
+          return { timeout_ms = 2000, lsp_format = "fallback" }
+        end
+
+        -- A "prettier" key inside package.json counts too.
+        local pkg = vim.fs.find("package.json", { path = dir, upward = true })[1]
+        if pkg then
+          local ok, content = pcall(vim.fn.readfile, pkg)
+          if ok and table.concat(content, "\n"):match('"prettier"%s*:') then
+            return { timeout_ms = 2000, lsp_format = "fallback" }
+          end
+        end
+
+        -- Non-JS filetypes have one canonical style, so formatting them is safe.
+        local ft = vim.bo[bufnr].filetype
+        if ft == "go" or ft == "lua" or ft == "c" then
+          return { timeout_ms = 2000, lsp_format = "fallback" }
+        end
+
+        return nil
       end,
     },
   },

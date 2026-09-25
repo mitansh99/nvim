@@ -35,6 +35,9 @@ require("lazy").setup({
   ui = { border = "rounded" },
   install = { colorscheme = { "catppuccin" } },
   checker = { enabled = false },          -- don't nag about plugin updates
+  rocks = { enabled = false },           -- no plugin here needs luarocks, and
+                                         -- leaving it on makes :checkhealth
+                                         -- report a permanent ERROR
   change_detection = { notify = false },  -- don't nag when you edit this config
   performance = {
     rtp = {
