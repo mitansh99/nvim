@@ -148,6 +148,7 @@ So the usual move is `Space p`, type part of the name, then `Ctrl+v`.
 |---|---|
 | `Space u t` | Theme picker — live preview, Enter keeps, Esc reverts |
 | `Space u f` | Turn format-on-save on/off |
+| `Space c f` | Format this file now, regardless |
 | `Space u w` | Line wrap |
 | `Space u n` | Relative line numbers |
 | `Space u d` | Error squiggles |
@@ -196,6 +197,21 @@ after you save or return to Neovim.
 
 `●` marks HEAD, `│` the commits behind it, and the branch name is shown on the
 tip commit.
+
+## Formatting
+
+Format-on-save only runs where the project declares a style — a `.prettierrc`
+in any form, an `.editorconfig`, or a `prettier` key in `package.json`.
+
+None of your repos declare one, so **JS/JSX files are left alone on save**.
+That is deliberate: prettier's defaults use double quotes and semicolons while
+your code uses neither, so one save would have rewritten 73% of `App.jsx`.
+Add a `.prettierrc` to a repo and formatting starts working there by itself.
+
+Go, Lua and C always format — each has one canonical style.
+`Space c f` formats the current file on demand, whatever the project says.
+
+---
 
 ## Autocomplete
 
